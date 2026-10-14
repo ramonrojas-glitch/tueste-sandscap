@@ -185,6 +185,14 @@ html{scroll-padding-top:calc(var(--head) + env(safe-area-inset-top,0px) + 16px)}
 .foot-word{font-family:var(--display);font-size:clamp(60px,14vw,210px);line-height:.85;color:#F3F0EB}
 .foot-row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:20px;margin-top:40px;padding-top:20px;border-top:1px solid rgba(229,234,211,.25);font-size:12px;letter-spacing:.16em;text-transform:uppercase}
 .foot-row a{color:#E5EAD3;text-decoration:none}
+/* aviso de confianza: Brinco no guarda tarjetas */
+.fvault{display:flex;align-items:flex-start;gap:9px;max-width:560px;margin:36px 0 0;font-size:13px;line-height:1.6;color:#E5EAD3}
+.fvault svg{flex:none;margin-top:3px;color:var(--pistachio)}
+.fvault b{font-weight:600;color:#F3F0EB}
+.vault-line{display:flex;align-items:flex-start;justify-content:center;gap:7px;margin:0;font-size:12.5px;line-height:1.45;color:var(--muted);text-wrap:balance}
+.vault-line svg{flex:none;margin-top:1px;color:var(--olive)}
+.vault-line b{font-weight:600;color:var(--ink)}
+.pay-note + .vault-line{margin-top:12px;justify-content:flex-start}
 
 /* overlays (cart, checkout) */
 .scrim{position:fixed;inset:0;background:rgba(30,28,25,.55);z-index:80}
@@ -429,6 +437,7 @@ body.locked{overflow:hidden}
 <footer class="foot">
   <div class="wrap">
     <div class="foot-word">TUESTE</div>
+    <p class="fvault"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.6-3 8.4-7 10-4-1.6-7-5.4-7-10V6z"/><rect x="9" y="11" width="6" height="5" rx="1"/><path d="M10.5 11V9.6a1.5 1.5 0 0 1 3 0V11"/></svg><span><b>Brinco no guarda tarjetas.</b> Tus datos de pago quedan protegidos por el procesador certificado PCI DSS: <b>AZUL</b>, <b>CardNet</b> o <b>MIO</b>.</span></p>
     <div class="foot-row"><span>© [Año] Tueste Café</span><span><a href="#menu">Menú</a> · <a href="#personaliza">Personaliza</a> · <a href="https://instagram.com">Instagram</a></span></div>
   </div>
 </footer>
@@ -476,6 +485,7 @@ body.locked{overflow:hidden}
           <button type="button" class="choice" data-pay="cash" aria-pressed="false"><b id="cash-t">Pagar al recoger</b><span>Efectivo o tarjeta</span></button>
         </div>
         <div class="pay-note" id="pay-note"></div>
+        <p class="vault-line"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.6-3 8.4-7 10-4-1.6-7-5.4-7-10V6z"/><rect x="9" y="11" width="6" height="5" rx="1"/><path d="M10.5 11V9.6a1.5 1.5 0 0 1 3 0V11"/></svg><span>Brinco <b>no guarda</b> tu tarjeta. La protegen <b>AZUL</b>, <b>CardNet</b> o <b>MIO</b>.</span></p>
         <div class="co-actions"><button class="btn btn-ghost" type="button" data-back="2">Atrás</button><button class="btn" type="submit">Confirmar pedido</button></div>
       </form>
       <div id="step-done" hidden></div>
@@ -680,7 +690,7 @@ body.locked{overflow:hidden}
       return '<div class="line-item"><img src="' + p.img + '" alt=""><div><div class="li-name">' + p.name + '</div>' + (l.text ? '<div class="li-opts">' + l.text + '</div>' : '') + '<div class="li-opts">' + fmt(l.unit) + ' c/u</div><button type="button" class="link-btn" data-remove="' + esc(l.key) + '">Quitar</button></div><div class="li-right">' + stepper(l.key, l.qty) + '<span class="li-total">' + fmt(l.unit * l.qty) + '</span></div></div>';
     }).join('');
     var t = totals();
-    $('cart-foot').innerHTML = '<div class="sum-row"><span>Subtotal</span><span>' + fmt(t.sub) + '</span></div><div class="sum-row"><span>ITBIS (18%)</span><span>' + fmt(t.tax) + '</span></div><div class="sum-row total"><span>Total</span><span>' + fmt(t.sub + t.tax) + '</span></div><button type="button" class="btn btn-block" id="go-checkout">Finalizar pedido</button>';
+    $('cart-foot').innerHTML = '<div class="sum-row"><span>Subtotal</span><span>' + fmt(t.sub) + '</span></div><div class="sum-row"><span>ITBIS (18%)</span><span>' + fmt(t.tax) + '</span></div><div class="sum-row total"><span>Total</span><span>' + fmt(t.sub + t.tax) + '</span></div><button type="button" class="btn btn-block" id="go-checkout">Finalizar pedido</button><p class="vault-line"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.6-3 8.4-7 10-4-1.6-7-5.4-7-10V6z"/><rect x="9" y="11" width="6" height="5" rx="1"/><path d="M10.5 11V9.6a1.5 1.5 0 0 1 3 0V11"/></svg><span>Brinco <b>no guarda</b> tu tarjeta. La protegen <b>AZUL</b>, <b>CardNet</b> o <b>MIO</b>.</span></p>';
   }
   function renderAll(){ renderMenu(); renderCart(); if (!$('checkout').hidden) renderSummary(); }
 
