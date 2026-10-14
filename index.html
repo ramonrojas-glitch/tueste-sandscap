@@ -370,7 +370,7 @@ body.locked{overflow:hidden}
       </div>
       <div class="tabs" role="group" aria-label="Filtrar por categoría" id="tabs"></div>
       <div class="grid" id="grid" aria-live="polite"></div>
-      <p class="note">Precios de ejemplo en RD$, ITBIS incluido. Se ajustan con el menú real del cliente.</p>
+      <p class="note">Precios de ejemplo en RD$, antes de ITBIS. Se ajustan con el menú real del cliente.</p>
     </div>
   </section>
 
@@ -583,7 +583,8 @@ body.locked{overflow:hidden}
   function count(){ return cart.reduce(function(n, l){ return n + l.qty; }, 0); }
   function totals(){
     var sub = cart.reduce(function(s, l){ return s + l.unit * l.qty; }, 0);
-    return {sub:sub, total:sub};
+    var tax = sub * 0.18;
+    return {sub:sub, tax:tax, total:sub + tax};
   }
 
   var activeCat = 'all';
@@ -606,7 +607,7 @@ body.locked{overflow:hidden}
       return '<div class="line-item"><img src="' + p.img + '" alt=""><div><div class="li-name">' + p.name + '</div>' + (l.text ? '<div class="li-opts">' + l.text + '</div>' : '') + '<div class="li-opts">' + fmt(l.unit) + ' c/u</div><button type="button" class="link-btn" data-remove="' + esc(l.key) + '">Quitar</button></div><div class="li-right">' + stepper(l.key, l.qty) + '<span class="li-total">' + fmt(l.unit * l.qty) + '</span></div></div>';
     }).join('');
     var t = totals();
-    $('cart-foot').innerHTML = '<div class="sum-row"><span>Entrega</span><span>Se elige al pagar</span></div><div class="sum-row total"><span>Subtotal</span><span>' + fmt(t.sub) + '</span></div><div class="sum-row" style="justify-content:flex-end;font-size:12.5px;color:var(--muted);margin-top:-6px">ITBIS incluido</div><button type="button" class="btn btn-block" id="go-checkout">Finalizar pedido</button><p class="vault-line"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.6-3 8.4-7 10-4-1.6-7-5.4-7-10V6z"/><rect x="9" y="11" width="6" height="5" rx="1"/><path d="M10.5 11V9.6a1.5 1.5 0 0 1 3 0V11"/></svg><span>Brinco <b>no guarda</b> tu tarjeta. La protegen <b>AZUL</b>, <b>CardNet</b> o <b>MIO</b>.</span></p>';
+    $('cart-foot').innerHTML = '<div class="sum-row"><span>Subtotal</span><span>' + fmt(t.sub) + '</span></div><div class="sum-row"><span>ITBIS (18%)</span><span>' + fmt(t.tax) + '</span></div><div class="sum-row total"><span>Total</span><span>' + fmt(t.total) + '</span></div><button type="button" class="btn btn-block" id="go-checkout">Finalizar pedido</button><p class="vault-line"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.6-3 8.4-7 10-4-1.6-7-5.4-7-10V6z"/><rect x="9" y="11" width="6" height="5" rx="1"/><path d="M10.5 11V9.6a1.5 1.5 0 0 1 3 0V11"/></svg><span>Brinco <b>no guarda</b> tu tarjeta. La protegen <b>AZUL</b>, <b>CardNet</b> o <b>MIO</b>.</span></p>';
   }
   function renderAll(){ renderMenu(); renderCart(); }
 

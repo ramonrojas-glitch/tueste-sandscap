@@ -15,10 +15,40 @@
   "prefijoOrden": "TU",
   "moneda": "RD$",
   "envio": 150,
-  "entrega": { "delivery": true, "pickup": true, "deliveryMin": 25, "deliveryMax": 40, "pickupMin": 10 },
-  "sectores": ["Piantini", "Naco", "Serrallés", "Bella Vista", "Evaristo Morales", "Gazcue", "Arroyo Hondo", "Los Cacicazgos", "Mirador Sur", "La Esperilla", "Paraíso", "Zona Colonial"],
-  "tienda": { "direccion": "Av. Gustavo Mejía Ricart 112, Piantini", "ciudad": "Santo Domingo", "mapa": "https://maps.google.com/?q=Av.+Gustavo+Mej%C3%ADa+Ricart+112,+Piantini,+Santo+Domingo" },
-  "producto": { "singular": "café", "plural": "cafés" },
+  "itbis": {
+    "incluido": false,
+    "tasa": 0.18
+  },
+  "entrega": {
+    "delivery": true,
+    "pickup": true,
+    "deliveryMin": 25,
+    "deliveryMax": 40,
+    "pickupMin": 10
+  },
+  "sectores": [
+    "Piantini",
+    "Naco",
+    "Serrallés",
+    "Bella Vista",
+    "Evaristo Morales",
+    "Gazcue",
+    "Arroyo Hondo",
+    "Los Cacicazgos",
+    "Mirador Sur",
+    "La Esperilla",
+    "Paraíso",
+    "Zona Colonial"
+  ],
+  "tienda": {
+    "direccion": "Av. Gustavo Mejía Ricart 112, Piantini",
+    "ciudad": "Santo Domingo",
+    "mapa": "https://maps.google.com/?q=Av.+Gustavo+Mej%C3%ADa+Ricart+112,+Piantini,+Santo+Domingo"
+  },
+  "producto": {
+    "singular": "café",
+    "plural": "cafés"
+  },
   "etapas": {
     "recibidoTexto": "Ya está en la barra. Tu barista lo tiene en la lista.",
     "preparando": "Preparando tu café",
@@ -34,6 +64,11 @@
     "entregadoTexto": "¡Disfrútalo! Gracias por pedir directo.",
     "recogidoTexto": "¡Disfrútalo! Gracias por pedir directo."
   },
-  "contacto": { "direccion": "[Dirección del local]", "telefono": "[Teléfono / WhatsApp]", "correo": "[Correo]", "instagram": "[@usuario]" },
+  "contacto": {
+    "direccion": "[Dirección del local]",
+    "telefono": "[Teléfono / WhatsApp]",
+    "correo": "[Correo]",
+    "instagram": "[@usuario]"
+  },
   "idioma": "es"
 }
