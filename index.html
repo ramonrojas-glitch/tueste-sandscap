@@ -65,6 +65,15 @@ h1,h2,h3{text-wrap:balance}
 .cart-count{min-width:22px;height:22px;border-radius:11px;background:var(--olive);color:#fff;font:600 11px/22px var(--sans);text-align:center;padding:0 6px;letter-spacing:0;font-variant-numeric:tabular-nums}
 .cart-count.bump{animation:bump .4s ease}
 @keyframes bump{40%{transform:scale(1.35)}}
+/* header fijo: sombra al bajar + aviso bajo el pedido al añadir */
+html{scroll-padding-top:calc(var(--head) + env(safe-area-inset-top,0px) + 16px)}
+.head{transition:box-shadow .3s}
+.head.scrolled{box-shadow:0 6px 22px rgba(30,28,25,.12)}
+.added-pill{position:absolute;top:calc(100% + 8px);right:40px;z-index:1;max-width:calc(100vw - 24px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;background:var(--ink);color:var(--paper);font:500 13px var(--sans);letter-spacing:.02em;padding:9px 14px;box-shadow:0 8px 20px rgba(30,28,25,.22);pointer-events:none;opacity:0;transform:translateY(-6px);transition:opacity .25s,transform .25s}
+.added-pill::before{content:"";position:absolute;top:-4px;right:var(--tip,16px);width:8px;height:8px;background:var(--ink);transform:rotate(45deg)}
+.added-pill b{color:var(--pistachio);font-weight:600;margin-right:4px}
+.added-pill.on{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.added-pill{transition:none;transform:none}}
 
 /* hero */
 .hero{position:relative;height:calc(var(--sh) * 6);background:var(--wall)}
@@ -334,6 +343,7 @@ body.locked{overflow:hidden}
       <span class="cart-label">Pedido</span><span class="cart-count" id="cart-count" hidden>0</span>
     </button>
   </div>
+  <div class="added-pill" id="added-pill" aria-hidden="true"></div>
 </header>
 
 <main>
@@ -627,6 +637,19 @@ body.locked{overflow:hidden}
     save(); renderAll();
     var c = $('cart-count'); c.classList.remove('bump'); void c.offsetWidth; c.classList.add('bump');
     toast(byId[id].name + ' añadido al pedido');
+    addedPill(byId[id].name);
+  }
+  /* header: sombra al bajar; aviso "en tu pedido" bajo el botón del pedido */
+  var headEl = document.querySelector('.head'), scrolledOn = null, pillTimer = 0;
+  function onHeadScroll(){ var s = window.scrollY > 8; if (s !== scrolledOn) { scrolledOn = s; headEl.classList.toggle('scrolled', s); } }
+  window.addEventListener('scroll', onHeadScroll, {passive:true}); onHeadScroll();
+  function addedPill(name){
+    var p = $('added-pill'), b = $('cart-btn').getBoundingClientRect(), h = headEl.getBoundingClientRect();
+    p.style.right = Math.max(12, Math.round(h.right - b.right)) + 'px';
+    p.style.setProperty('--tip', Math.max(8, Math.round(b.width / 2 - 4)) + 'px');
+    p.innerHTML = '<b>✓</b>'; p.appendChild(document.createTextNode(name + ' en tu pedido'));
+    p.classList.remove('on'); void p.offsetWidth; p.classList.add('on');
+    clearTimeout(pillTimer); pillTimer = setTimeout(function(){ p.classList.remove('on'); }, 2000);
   }
   function setQty(key, q){ var l = find(key); if (!l) return; if (q <= 0) cart = cart.filter(function(x){ return x.key !== key; }); else l.qty = Math.min(24, q); save(); renderAll(); }
   function plainQty(id){ var l = find(id); return l ? l.qty : 0; }
