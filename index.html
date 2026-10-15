@@ -618,8 +618,17 @@ body.locked{overflow:hidden}
   function closeDrawer(){ $('drawer').hidden = true; $('scrim').hidden = true; lock(false); if (lastFocus) lastFocus.focus(); }
 
   /* ---------- checkout: lo hace el Brinco Kit (entrega, datos, pago AZUL / Brinco, seguimiento) ---------- */
+  // Referencia del menú para Brinco (la usa el Wallet para recalcular el precio): {p: producto, x: opciones y extras}
+  function tuSku(l){
+    var x = [];
+    if (l.opts) {
+      Object.keys(OPT).forEach(function(k){ OPT[k].list.forEach(function(o){ if (o[0] === l.opts[k]) x.push(k + ':' + o[0]); }); });
+      EXTRAS.forEach(function(e){ if (l.opts.extras && l.opts.extras[e[0]]) x.push(e[0]); });
+    }
+    return {p:l.id, x:x};
+  }
   window.BrincoCart = {
-    items: function(){ return cart.map(function(l){ var p = byId[l.id]; return {name:p.name, detail:l.text || '', qty:l.qty, unit:l.unit, img:'/' + p.img}; }); },
+    items: function(){ return cart.map(function(l){ var p = byId[l.id]; return {name:p.name, detail:l.text || '', qty:l.qty, unit:l.unit, img:'/' + p.img, sku:tuSku(l)}; }); },
     total: function(){ return totals().sub; },
     clear: function(){ cart = []; save(); renderAll(); },
     close: function(){ $('drawer').hidden = true; $('scrim').hidden = true; lock(false); } // sin devolver el foco: lo toma la hoja de pago

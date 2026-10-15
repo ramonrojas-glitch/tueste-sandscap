@@ -70,5 +70,41 @@
     "correo": "[Correo]",
     "instagram": "[@usuario]"
   },
-  "idioma": "es"
+  "idioma": "es",
+  "catalogo": {
+    "productos": {
+      "latte-tiramisu": 325,
+      "cold-brew": 220,
+      "coco": 260,
+      "matcha": 275,
+      "affogato": 240,
+      "espresso": 120,
+      "cortado": 150,
+      "cappuccino": 190,
+      "cafe-leche": 165,
+      "mocha": 230,
+      "croissant": 175,
+      "banana": 165,
+      "galleta": 120,
+      "jarabacoa": 850,
+      "barahona": 850
+    },
+    "extras": {
+      "size:regular": 0,
+      "size:grande": 50,
+      "milk:entera": 0,
+      "milk:deslactosada": 0,
+      "milk:avena": 40,
+      "milk:almendra": 40,
+      "sweet:sin": 0,
+      "sweet:medio": 0,
+      "sweet:normal": 0,
+      "ice:normal": 0,
+      "ice:poco": 0,
+      "shot": 60,
+      "pistacho": 45,
+      "cacao": 25,
+      "crema": 35
+    }
+  }
 }
